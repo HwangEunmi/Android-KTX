@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class SampleViewModel : ViewModel() {
+
     init {
         viewModelScope.launch {
 

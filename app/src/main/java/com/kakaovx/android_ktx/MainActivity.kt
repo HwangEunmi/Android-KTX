@@ -1,10 +1,14 @@
 package com.kakaovx.android_ktx
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
-import com.kakaovx.android_ktx.viewmodel_ktx.SampleViewModel
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.kakaovx.android_ktx.lifecycle_ktx.SampleViewModel
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,13 +16,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // (1) ViewModelProvider로 생성하기
-        val viewModel = ViewModelProvider(this).get(SampleViewModel::class.java)
-        // (2) Android KTX를 이용한 ViewModel 초기화
-        val viewModel2: SampleViewModel by viewModels()
+        val viewModel: SampleViewModel by viewModels()
+        lifecycleScope.launchWhenResumed {
+            viewModel.value.collect {
+                Log.d("THEEND", "1 launchWhenResumed: $it")
+            }
+        }
 
-        supportFragmentManager.beginTransaction()
-            .add(R.id.layout, BlankFragment.newInstance("", ""))
-            .commit()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.value.collect {
+                    Log.d("THEEND", "2 repeatOnLifecycle: $it")
+                }
+            }
+        }
     }
 }
