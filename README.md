@@ -19,9 +19,9 @@ KTX 확장 프로그램은 Kotlin 언어 기능을 사용하여 코드를 간결
 </br>
 <br/>
 
-## 🤔 정리 내용
-- ViewModel KTX
-- Lifecycle KTX
+## 🤔 정리할 내용
+- ViewModel KTX (0)
+- Lifecycle KTX (0)
 - Fragment KTX
 - LiveData KTX
 - Collection KTX
